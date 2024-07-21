@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friend_private/backend/api_requests/api/server.dart';
 import 'package:friend_private/backend/mixpanel.dart';
 import 'package:friend_private/backend/preferences.dart';
 import 'package:friend_private/backend/schema/plugin.dart';
@@ -33,7 +34,7 @@ class _PluginsPageState extends State<PluginsPage> {
       filterMemories = false;
       filterExternal = false;
     }
-    plugins = SharedPreferencesUtil().pluginsList;
+    plugins = SharedPreferencesUtil().pluginsList + SharedPreferencesUtil().customPluginsList;
     super.initState();
   }
 
@@ -228,6 +229,53 @@ class _PluginsPageState extends State<PluginsPage> {
                 ),
               ),
             ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                // Add expandable section with a "Custom plugins URL" title, and a textfield to input the URL
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Custom plugins URL',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            onChanged: (value) {
+                              SharedPreferencesUtil().customPluginsListUrl = value;
+                            },
+                            obscureText: false,
+                            decoration: const InputDecoration(
+                              hintText: 'Enter your custom plugins URL...',
+                              hintStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
+                              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.deepPurple)),
+                            ),
+                            style: const TextStyle(
+                              // fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.save, color: Colors.white),
+                          onPressed: () async {
+                            await retrieveCustomPlugins();
+                            setState(() {});
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
             // const SliverToBoxAdapter(child: SizedBox(height: 8)),
             SliverList(
                 delegate: SliverChildBuilderDelegate(
@@ -244,7 +292,8 @@ class _PluginsPageState extends State<PluginsPage> {
                   child: ListTile(
                     onTap: () async {
                       await routeToPage(context, PluginDetailPage(plugin: plugin));
-                      setState(() => plugins = SharedPreferencesUtil().pluginsList);
+                      setState(() =>
+                          plugins = SharedPreferencesUtil().pluginsList + SharedPreferencesUtil().customPluginsList);
                     },
                     leading: CircleAvatar(
                       backgroundColor: Colors.white,
@@ -346,7 +395,8 @@ class _PluginsPageState extends State<PluginsPage> {
                               () async {
                                 Navigator.pop(context);
                                 await routeToPage(context, PluginDetailPage(plugin: plugin));
-                                setState(() => plugins = SharedPreferencesUtil().pluginsList);
+                                setState(() => plugins =
+                                    SharedPreferencesUtil().pluginsList + SharedPreferencesUtil().customPluginsList);
                               },
                               'Authorize External Plugin',
                               'Do you allow this plugin to access your memories, transcripts, and recordings? Your data will be sent to the plugin\'s server for processing.',

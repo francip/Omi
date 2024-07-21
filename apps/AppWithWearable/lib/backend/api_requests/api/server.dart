@@ -12,12 +12,14 @@ import 'package:http/http.dart' as http;
 import 'package:instabug_flutter/instabug_flutter.dart';
 import 'package:instabug_http_client/instabug_http_client.dart';
 import 'package:path/path.dart';
+import 'package:share_plus/share_plus.dart';
 
 Future<List<TranscriptSegment>> transcribe(File file) async {
   final client = InstabugHttpClient();
   var request = http.MultipartRequest(
     'POST',
-    Uri.parse('${Env.apiBaseUrl}v1/transcribe?language=${SharedPreferencesUtil().recordingsLanguage}&uid=${SharedPreferencesUtil().uid}'),
+    Uri.parse(
+        '${Env.apiBaseUrl}v1/transcribe?language=${SharedPreferencesUtil().recordingsLanguage}&uid=${SharedPreferencesUtil().uid}'),
   );
   request.files.add(await http.MultipartFile.fromPath('file', file.path, filename: basename(file.path)));
 
@@ -146,6 +148,28 @@ Future<List<Plugin>> retrievePlugins() async {
     }
   }
   return SharedPreferencesUtil().pluginsList;
+}
+
+Future<List<Plugin>> retrieveCustomPlugins() async {
+  if (SharedPreferencesUtil().customPluginsListUrl.isEmpty) return [];
+  var response = await makeApiCall(
+    url: '${SharedPreferencesUtil().customPluginsListUrl}?uid=${SharedPreferencesUtil().uid}',
+    headers: {},
+    body: '',
+    method: 'GET',
+  );
+  if (response?.statusCode == 200) {
+    try {
+      var customPlugins = Plugin.fromJsonList(jsonDecode(response!.body));
+      SharedPreferencesUtil().customPluginsList = customPlugins;
+      return customPlugins;
+    } catch (e, stackTrace) {
+      debugPrint(e.toString());
+      CrashReporting.reportHandledCrash(e, stackTrace);
+      return SharedPreferencesUtil().customPluginsList;
+    }
+  }
+  return SharedPreferencesUtil().customPluginsList;
 }
 
 Future<void> reviewPlugin(String pluginId, double score, {String review = ''}) async {

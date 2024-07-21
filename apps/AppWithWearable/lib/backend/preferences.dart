@@ -120,6 +120,24 @@ class SharedPreferencesUtil {
 
   set pluginsEnabled(List<String> value) => saveStringList('pluginsEnabled', value);
 
+  List<Plugin> get customPluginsList {
+    final List<String> plugins = getStringList('customPluginsList') ?? [];
+    return Plugin.fromJsonList(plugins.map((e) => jsonDecode(e)).toList());
+  }
+
+  set customPluginsList(List<Plugin> value) {
+    final List<String> plugins = value.map((e) => jsonEncode(e.toJson())).toList();
+    saveStringList('customPluginsList', plugins);
+  }
+
+  List<String> get customPluginsEnabled => getStringList('customPluginsEnabled') ?? [];
+
+  set customPluginsEnabled(List<String> value) => saveStringList('customPluginsEnabled', value);
+
+  String get customPluginsListUrl => getString('customPluginsListUrl') ?? '';
+
+  set customPluginsListUrl(String value) => saveString('customPluginsListUrl', value);
+
   enablePlugin(String value) {
     final List<String> pluginsId = pluginsEnabled;
     pluginsId.add(value);

@@ -94,8 +94,9 @@ class _HomePageWrapperState extends State<HomePageWrapper> with WidgetsBindingOb
   }
 
   Future<void> _initiatePlugins() async {
-    plugins = SharedPreferencesUtil().pluginsList;
-    plugins = await retrievePlugins();
+    var publishedPlugins = await retrievePlugins();
+    var customPlugins = await retrieveCustomPlugins();
+    plugins = publishedPlugins + customPlugins;
     _edgeCasePluginNotAvailable();
     setState(() {});
   }
