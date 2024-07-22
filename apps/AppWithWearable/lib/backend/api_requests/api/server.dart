@@ -22,7 +22,6 @@ Future<List<TranscriptSegment>> transcribe(File file) async {
         '${Env.apiBaseUrl}v1/transcribe?language=${SharedPreferencesUtil().recordingsLanguage}&uid=${SharedPreferencesUtil().uid}'),
   );
   request.files.add(await http.MultipartFile.fromPath('file', file.path, filename: basename(file.path)));
-
   request.headers.addAll({
     'Authorization': await getAuthHeader(),
   });
