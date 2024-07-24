@@ -228,11 +228,14 @@ class _HomePageWrapperState extends State<HomePageWrapper> with WidgetsBindingOb
 
   _initiateBleBatteryListener() async {
     _bleBatteryLevelListener?.cancel();
-    _bleBatteryLevelListener = await getBleBatteryLevelListener(_device!.id, onBatteryLevelChange: (int value) {
-      setState(() {
-        batteryLevel = value;
-      });
-    });
+    _bleBatteryLevelListener = await getBleBatteryLevelListener(
+      _device!.id,
+      onBatteryLevelChange: (int value) {
+        setState(() {
+          batteryLevel = value;
+        });
+      },
+    );
   }
 
   _tabChange(int index) {
@@ -488,7 +491,7 @@ class _HomePageWrapperState extends State<HomePageWrapper> with WidgetsBindingOb
                   if (GrowthbookUtil().hasStreamingTranscriptFeatureOn() &&
                       (language != SharedPreferencesUtil().recordingsLanguage ||
                           hasSpeech != SharedPreferencesUtil().hasSpeakerProfile)) {
-                    capturePageKey.currentState?.resetState(restartBytesProcessing: true);
+                    capturePageKey.currentState?.restartWebSocket();
                   }
                   setState(() {});
                 },
