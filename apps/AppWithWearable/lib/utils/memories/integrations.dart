@@ -11,16 +11,12 @@ getOnMemoryCreationEvents(Memory memory) async {
   var onMemoryCreationPlugins = SharedPreferencesUtil()
       .pluginsList
       .where((element) => element.externalIntegration?.triggersOn == 'memory_creation' && element.enabled)
+      .toSet()
       .toList();
   // print('onMemoryCreationPlugins: $onMemoryCreationPlugins');
   List<Future<Tuple2<Plugin, String>>> triggerPluginResult = onMemoryCreationPlugins.map((plugin) async {
     var url = plugin.externalIntegration!.webhookUrl;
     // var url = 'https://eddc-148-64-106-26.ngrok-free.app/notion-crm';
-    if (url.contains('?')) {
-      url += '&uid=${SharedPreferencesUtil().uid}';
-    } else {
-      url += '?uid=${SharedPreferencesUtil().uid}';
-    }
     String message = await triggerMemoryRequestAtEndpoint(url, memory);
     return Tuple2(plugin, message);
   }).toList();
@@ -31,15 +27,10 @@ getOnTranscriptSegmentReceivedEvents(List<TranscriptSegment> segment, String ses
   var plugins = SharedPreferencesUtil()
       .pluginsList
       .where((element) => element.externalIntegration?.triggersOn == 'transcript_processed' && element.enabled)
+      .toSet()
       .toList();
   List<Future<Tuple2<Plugin, String>>> triggerPluginResult = plugins.map((plugin) async {
     var url = plugin.externalIntegration!.webhookUrl;
-    // var url = 'https://610e-148-64-106-26.ngrok-free.app/news-checker';
-    if (url.contains('?')) {
-      url += '&uid=${SharedPreferencesUtil().uid}';
-    } else {
-      url += '?uid=${SharedPreferencesUtil().uid}';
-    }
     String message = await triggerTranscriptSegmentsRequest(url, sessionId, segment);
     return Tuple2(plugin, message);
   }).toList();
@@ -52,8 +43,8 @@ triggerMemoryCreatedEvents(
 }) async {
   if (memory.discarded) return;
 
-  devModeWebhookCall(memory).then((s) {
-    if (s.isNotEmpty) createNotification(title: 'Webhook Result', body: s, notificationId: 10);
+  webhookOnMemoryCreatedCall(memory).then((s) {
+    if (s.isNotEmpty) createNotification(title: 'Developer: On Memory Created', body: s, notificationId: 10);
   });
 
   List<Tuple2<Plugin, String>> results = await getOnMemoryCreationEvents(memory);
@@ -75,6 +66,9 @@ triggerTranscriptSegmentReceivedEvents(
   String sessionId, {
   Function(Message, Memory?)? sendMessageToChat,
 }) async {
+  webhookOnTranscriptReceivedCall(segments, sessionId).then((s) {
+    if (s.isNotEmpty) createNotification(title: 'Developer: On Transcript Received', body: s, notificationId: 10);
+  });
   List<Tuple2<Plugin, String>> results = await getOnTranscriptSegmentReceivedEvents(segments, sessionId);
   for (var result in results) {
     if (result.item2.isNotEmpty) {
