@@ -17,7 +17,14 @@ you through creating both Memory Creation Triggers and Real-Time Transcript Proc
 These plugins are activated when FRIEND creates a new memory, allowing you to process or store the memory data
 externally.
 
-[![Memory trigger plugin](https://img.youtube.com/vi/Yv7gP3GZ0ME/0.jpg)](https://youtube.com/shorts/Yv7gP3GZ0ME)
+<a href="https://youtube.com/shorts/Yv7gP3GZ0ME" target="_blank">
+  <div style="position: relative; display: inline-block;">
+    <img src="https://img.youtube.com/vi/Yv7gP3GZ0ME/0.jpg" alt="Memory trigger plugin" style="width: 300px;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0,0,0,0.7); border-radius: 50%; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center;">
+      <div style="width: 0; height: 0; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 28px solid white; margin-left: 5px;"></div>
+    </div>
+  </div>
+</a>
 
 #### Example Use Cases
 
@@ -29,7 +36,14 @@ externally.
 
 These plugins process conversation transcripts as they occur, enabling real-time analysis and actions.
 
-[![Real-time processing plugin](https://img.youtube.com/vi/h4ojO3WzkxQ/0.jpg)](https://youtube.com/shorts/h4ojO3WzkxQ)
+<a href="https://youtube.com/shorts/h4ojO3WzkxQ" target="_blank">
+  <div style="position: relative; display: inline-block;">
+    <img src="https://img.youtube.com/vi/h4ojO3WzkxQ/0.jpg" alt="Memory trigger plugin" style="width: 300px;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0,0,0,0.7); border-radius: 50%; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center;">
+      <div style="width: 0; height: 0; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 28px solid white; margin-left: 5px;"></div>
+    </div>
+  </div>
+</a>
 
 #### Example Use Cases
 
@@ -46,7 +60,7 @@ purpose.
 
 ### Step 2: Set Up Your Endpoint 🔗
 
-Create an endpoint (webhook) that can receive and process the data sent by FRIEND. You can create a test webhook [here](https://webhook.site/). The data structure will differ based on your
+Create an endpoint (webhook) that can receive and process the data sent by FRIEND. You can [create a test webhook](https://webhook-test.com/). The data structure will differ based on your
 plugin type:
 
 #### For Memory Creation Triggers:
@@ -148,24 +162,41 @@ Time to put your plugin through its paces! Follow these steps to test both types
 
 #### For Memory Creation Triggers:
 
-4. Set your endpoint URL in the "Memory Creation Webhook" field. If you don't have endpoint yet, create a test webhook [here](https://webhook.site/)
+4. Set your endpoint URL in the "Memory Creation Webhook" field. If you don't have an endpoint yet, [create a test webhook](https://webhook-test.com/)
 5. To test without creating a new memory:
     - Go to any memory detail view.
     - Click on the top right corner (3 dots menu).
     - In the Developer Tools section, trigger the endpoint call with existing memory data.
 
-[![Testing On Memory Created Integrations](https://img.youtube.com/vi/dYVSbEpoV0U/0.jpg)](https://youtube.com/shorts/dYVSbEpoV0U)
+<a href="https://youtube.com/shorts/dYVSbEpoV0U" target="_blank">
+  <div style="position: relative; display: inline-block;">
+    <img src="https://img.youtube.com/vi/dYVSbEpoV0U/0.jpg" alt="Memory trigger plugin" style="width: 300px;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0,0,0,0.7); border-radius: 50%; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center;">
+      <div style="width: 0; height: 0; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 28px solid white; margin-left: 5px;"></div>
+    </div>
+  </div>
+</a>
 
 #### For Real-Time Transcript Processors:
 
 4. Set your endpoint URL in the "Real-Time Transcript Webhook" field.
 5. Start speaking to your device - your endpoint will receive real-time updates as you speak.
 
-[![Testing Real-time transcript Integrations](https://img.youtube.com/vi/CHz9JnOGlTQ/0.jpg)](https://youtube.com/shorts/CHz9JnOGlTQ)
+<a href="https://youtube.com/shorts/CHz9JnOGlTQ" target="_blank">
+  <div style="position: relative; display: inline-block;">
+    <img src="https://img.youtube.com/vi/CHz9JnOGlTQ/0.jpg" alt="Memory trigger plugin" style="width: 300px;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0,0,0,0.7); border-radius: 50%; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center;">
+      <div style="width: 0; height: 0; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 28px solid white; margin-left: 5px;"></div>
+    </div>
+  </div>
+</a>
 
-Your endpoints are now ready to spring into action! For Memory Creation Triggers, you can test with existing memories or
-wait for new ones to be created. For Real-Time Processors, simply start a conversation with FRIEND to see your plugin in
-action.
+
+Your endpoints are now ready to spring into action!
+
+For **Memory Creation Triggers**, you can test with existing memories or wait for new ones to be created.
+
+For **Real-Time Processors**, simply start a conversation with FRIEND to see your plugin in action.
 
 Happy plugin crafting! We can't wait to see what you create! 🎉
 
