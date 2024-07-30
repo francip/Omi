@@ -7,7 +7,7 @@ from multion.client import MultiOn
 from pydantic import Field
 from pydantic.v1 import BaseModel
 
-from plugins.example.models import Memory, EndpointResponse
+from models import Memory, EndpointResponse
 
 router = APIRouter()
 
@@ -36,10 +36,13 @@ def call_multion(books: List[str]):
     response = multion.browse(
         cmd=f"Add to my cart the following books (in paperback version, or any physical version): {books}",
         url="https://amazon.com",
-        local=True,
+        local=False,
+        use_proxy=True,
     )
     return response.message
 
+
+# print(call_multion(['Cracking the code',]))
 
 # **************************************************
 # ************ On Memory Created Plugin ************
