@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 set(BOARD seeed_xiao_nrf52840_sense)
 cmake_minimum_required(VERSION 3.20.0)
+# cmake_minimum_required(VERSION 3.3)
+# cmake_policy(SET CMP0057 NEW)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(nrf52840_nordic)
 enable_language(C ASM)
@@ -168,4 +170,3 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAVE_CONFIG_H")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAVE_ALLOCA_H")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsingle-precision-constant") # A lot of constants are written as doubles
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAVE_LRINT -DHAVE_LRINTF")
-
