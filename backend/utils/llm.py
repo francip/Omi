@@ -28,7 +28,7 @@ llm_mini_stream = ChatOpenAI(model='gpt-4o-mini', streaming=True)
 llm_large = ChatOpenAI(model='o1-preview')
 llm_large_stream = ChatOpenAI(model='o1-preview', streaming=True, temperature=1)
 llm_medium = ChatOpenAI(model='gpt-4o')
-llm_medium_stream = ChatOpenAI(model='gpt-4o', streaming=True, temperature=1)
+llm_medium_stream = ChatOpenAI(model='gpt-4o', streaming=True)
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 parser = PydanticOutputParser(pydantic_object=Structured)
 
@@ -415,6 +415,27 @@ def retrieve_context_dates(messages: List[Message], tz: str) -> List[datetime]:
 
 
 def retrieve_context_dates_by_question(question: str, tz: str) -> List[datetime]:
+    prompt = f'''
+    You MUST determine the appropriate date range in {tz} that provides context for answering the <question> provided.
+
+    If the <question> does not reference a date or a date range, respond with an empty list: []
+
+    Current date time in UTC: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}
+
+    <question>
+    {question}
+    </question>
+
+    '''.replace('    ', '').strip()
+
+    # print(prompt)
+    # print(llm_mini.invoke(prompt).content)
+    with_parser = llm_mini.with_structured_output(DatesContext)
+    response: DatesContext = with_parser.invoke(prompt)
+    return response.dates_range
+
+
+def retrieve_context_dates_by_question_v3(question: str, tz: str) -> List[datetime]:
     prompt = f'''
     You MUST determine the appropriate date range in {tz} that provides context for answering the question provided.
 
@@ -1379,9 +1400,9 @@ def extract_question_from_conversation(messages: List[Message]) -> str:
     - etc.
     </date_in_term>
     '''.replace('    ', '').strip()
-    print(prompt)
+    # print(prompt)
     question = llm_mini.with_structured_output(OutputQuestion).invoke(prompt).question
-    print(question)
+    # print(question)
     return question
 
 
